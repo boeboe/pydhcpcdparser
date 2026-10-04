@@ -44,6 +44,7 @@ dev = [
     "mypy>=1.8",
     "interrogate>=1.7",
     "bandit>=1.7",
+    "pip-audit>=2.7",
 ]
 
 [tool.hatch.build.targets.wheel]

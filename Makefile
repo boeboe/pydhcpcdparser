@@ -47,7 +47,7 @@ typecheck: build ## Run mypy type checker
 
 docs-style: build ## Run docstring style checks (ruff pydocstyle rules)
 	@echo "Run docstring style checks"
-	$(DOCKER_RUN) ruff check src/pydhcpcdparser --select D
+	$(DOCKER_RUN) ruff check src/pydhcpcdparser
 
 docs-coverage: build ## Run docstring coverage checks
 	@echo "Run docstring coverage checks"
@@ -58,7 +58,6 @@ vet: build ## Run static quality checks (lint, mypy, docs checks)
 	$(DOCKER_RUN) ruff check src/ tests/
 	$(DOCKER_RUN) ruff format --check src/ tests/
 	$(DOCKER_RUN) mypy src/
-	$(DOCKER_RUN) ruff check src/pydhcpcdparser --select D
 	$(DOCKER_RUN) interrogate src/pydhcpcdparser
 
 security-bandit: build ## Run Bandit security lint checks
@@ -84,7 +83,6 @@ check: build ## Run all verifications (lint, type checks, docs, security, tests)
 	$(DOCKER_RUN) ruff check src/ tests/
 	$(DOCKER_RUN) ruff format --check src/ tests/
 	$(DOCKER_RUN) mypy src/
-	$(DOCKER_RUN) ruff check src/pydhcpcdparser --select D
 	$(DOCKER_RUN) interrogate src/pydhcpcdparser
 	$(DOCKER_RUN) bandit -q -r src/pydhcpcdparser
 	$(DOCKER_RUN) pip-audit || true

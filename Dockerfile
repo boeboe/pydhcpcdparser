@@ -7,16 +7,20 @@ WORKDIR /app
 RUN pip install --no-cache-dir hatchling
 
 # Copy dependency metadata first for better caching
-COPY pyproject.toml ./
+# README.md is required by hatchling metadata validation
+COPY pyproject.toml README.md ./
 
-# Install the package with dev dependencies
-RUN pip install --no-cache-dir -e ".[dev]"
+# Create minimal source layout so pip install can resolve the package
+RUN mkdir -p src/pydhcpcdparser && touch src/pydhcpcdparser/__init__.py
+
+# Install dependencies only (not the real source yet)
+RUN pip install --no-cache-dir ".[dev]"
 
 # Copy source code
 COPY . .
 
-# Reinstall with source
-RUN pip install --no-cache-dir -e ".[dev]"
+# Reinstall with real source
+RUN pip install --no-cache-dir ".[dev]"
 
 # Default command
 CMD ["python", "-c", "import pydhcpcdparser; print(f'pydhcpcdparser {pydhcpcdparser.__version__}')"]
