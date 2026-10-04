@@ -1,0 +1,108 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pydhcpcdparser"
+version = "0.1.0"
+description = "Parse, inspect, edit, validate, and render dhcpcd.conf files with lossless round-tripping"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+authors = [
+    { name = "Bart Van Bos" },
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: System :: Networking",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+keywords = ["dhcpcd", "dhcp", "network", "configuration", "parser"]
+
+[project.urls]
+Homepage = "https://github.com/boeboe/pydhcpcdparser"
+Repository = "https://github.com/boeboe/pydhcpcdparser"
+Issues = "https://github.com/boeboe/pydhcpcdparser/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "hypothesis>=6.0",
+    "ruff>=0.3",
+    "mypy>=1.8",
+    "interrogate>=1.7",
+    "bandit>=1.7",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pydhcpcdparser"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
+
+[tool.mypy]
+python_version = "3.9"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.ruff]
+target-version = "py39"
+line-length = 99
+
+[tool.ruff.lint]
+select = [
+    "D",   # pydocstyle
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "SIM", # flake8-simplify
+    "TCH", # flake8-type-checking
+    "RUF", # ruff-specific
+]
+ignore = [
+    "D105",  # missing docstring in magic method
+    "D107",  # missing docstring in __init__
+    "D212",  # multi-line summary first line (conflicts with D213)
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.isort]
+known-first-party = ["pydhcpcdparser"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["D"]
+
+[tool.interrogate]
+fail-under = 95
+exclude = ["tests"]
+ignore-init-method = true
+ignore-init-module = true
+ignore-magic = true
+
+[tool.coverage.run]
+source = ["pydhcpcdparser"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 90
